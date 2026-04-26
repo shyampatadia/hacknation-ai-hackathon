@@ -1,12 +1,15 @@
 "use client";
 
 import { AgentTrace } from "@/components/AgentTrace";
+import { AgentResponse } from "@/components/AgentResponse";
 import { SearchBar } from "@/components/SearchBar";
 import { quickFilters } from "@/lib/mock-data";
 import { useState } from "react";
 
 export default function HomePage() {
   const [prefillQuery, setPrefillQuery] = useState<string | null>(null);
+  const [agentResponse, setAgentResponse] = useState<string | null>(null);
+
   return (
     <>
       <section className="ask-stage">
@@ -22,11 +25,13 @@ export default function HomePage() {
             cta="Run query"
             chips={quickFilters}
             prefillQuery={prefillQuery}
+            onAgentResponse={setAgentResponse}
           />
         </div>
 
         <div className="right-rail">
           <AgentTrace onSelectQuery={setPrefillQuery} />
+          <AgentResponse response={agentResponse || "Run a query to see the AI agent's analysis here."} />
         </div>
       </section>
     </>

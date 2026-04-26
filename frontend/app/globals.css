@@ -54,6 +54,15 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.voice-button:disabled {
+  border-color: rgba(109, 124, 137, 0.16);
+  background: rgba(227, 234, 239, 0.8);
+  color: rgba(109, 124, 137, 0.9);
+  box-shadow: none;
+  transform: none;
+  opacity: 1;
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);

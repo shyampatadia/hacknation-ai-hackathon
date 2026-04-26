@@ -6,15 +6,24 @@ requires-python = ">=3.12"
 dependencies = [
   "fastapi==0.115.0",
   "httpx==0.27.2",
+  "python-dotenv==1.0.1",
+  "pydantic[email]==2.9.2",
   "liquid-audio",
   "torch",
   "transformers==4.56.0",
-  "python-dotenv==1.0.1",
-  "pydantic[email]==2.9.2",
   "uvicorn==0.31.0",
-  "email-validator>=2.3.0",
   "websockets>=16.0",
   "wsproto>=1.3.2",
+]
+
+[project.optional-dependencies]
+dev-server = [
+  "uvicorn==0.31.0",
+]
+voice-local = [
+  "liquid-audio",
+  "torch",
+  "transformers==4.56.0",
 ]
 
 [tool.uv]

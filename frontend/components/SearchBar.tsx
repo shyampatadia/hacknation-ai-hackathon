@@ -13,9 +13,11 @@ type SearchBarProps = {
   cta: string;
   chips: string[];
   prefillQuery?: string | null;
+  onAgentResponse: any; // (response: string) => void;
 };
 
-export function SearchBar({ placeholder, cta, chips, prefillQuery }: SearchBarProps) {
+export function SearchBar({ placeholder, cta, chips, prefillQuery, onAgentResponse }: SearchBarProps) {
+  // const voiceAvailable = false;
   const [searchQuery, setSearchQuery] = useState("");
   const [chips2, setChips2] = useState<Facility[]>([]);
   const lastAutoSubmittedTranscriptRef = useRef("");
@@ -26,6 +28,9 @@ export function SearchBar({ placeholder, cta, chips, prefillQuery }: SearchBarPr
   const voice = useRealtimeTranscription();
 
   const voiceStatusText = useMemo(() => {
+    // if (!voiceAvailable) {
+    //   return "Voice search is temporarily unavailable while the API deploy is being slimmed down for Vercel.";
+    // }
     if (voice.error) {
       return voice.error;
     }
@@ -37,6 +42,7 @@ export function SearchBar({ placeholder, cta, chips, prefillQuery }: SearchBarPr
     }
     return "Tap voice to dictate a crisis query. Recording auto-submits after 3 seconds of silence.";
   }, [voice.connectionState, voice.error, voice.liveTranscript, voice.partialText]);
+  // }, [voice.connectionState, voice.error, voice.liveTranscript, voice.partialText, voiceAvailable]);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -122,6 +128,25 @@ export function SearchBar({ placeholder, cta, chips, prefillQuery }: SearchBarPr
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+
+        const response2 = await fetch(apiRoutes.agentQuery, {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                payload: query,
+              })
+            });
+
+        if (!response2.ok) {
+          throw new Error(`HTTP error! status: ${response2.status}`);
+        }
+        const data2 = await response2.json();
+
+        onAgentResponse(data2.agent_response);
+
         setChips2(data['facilities']); 
         // console.log("Search results:", data);
         // Handle the response data as needed, e.g., update state or navigate
@@ -161,6 +186,7 @@ export function SearchBar({ placeholder, cta, chips, prefillQuery }: SearchBarPr
             void handleVoiceToggle();
           }}
           disabled={voice.connectionState === "stopping"}
+          // disabled={!voiceAvailable || voice.connectionState === "stopping"}
         />
       </div>
       <div className="search-meta">

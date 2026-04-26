@@ -36,6 +36,13 @@ class CrisisQueryResponse(BaseModel):
     desert_alert: dict[str, Any]
 
 
+class AgentQueryRequest(BaseModel):
+    payload: str = Field(min_length=1)
+
+
+class AgentQueryResponse(BaseModel):
+    agent_response: str
+
 class AuthenticatedUser(BaseModel):
     id: str
     email: EmailStr
@@ -65,4 +72,3 @@ class UserProfile(BaseModel):
     language: str | None = None
     created_at: str | None = None
     updated_at: str | None = None
-

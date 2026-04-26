@@ -38,7 +38,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <aside className="sidebar">
         <div className="sidebar-brand">
           <div>
-            <h1>Aarogya Intelligence</h1>
+            <h1>MedCompass: Find the Right Care, Right Where You Are</h1>
             <p>Healthcare network verification</p>
           </div>
         </div>

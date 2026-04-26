@@ -4,19 +4,19 @@
 
 ## Summary
 
-**App:** https://project-n4kab.vercel.app/
+### App
+
+[Link to Vercel](https://project-n4kab.vercel.app/)
 
 **Note:** Real-time speech to query feature is disabled on Vercel deployment because of deployment bundle size limit. The demo uses sample data from our Agentic AI layer and database. 
 
-**Tech Stack:** Next.js, FastAPI, Neo4j, Supabase, Vercel
+### Tech Stack
 
-**Demo Video:**
+Next.js, FastAPI, Neo4j, Supabase, Vercel
 
-<video src="assets/demo-video.mp4" width="600" controls>
-  Your browser does not support the video tag.
-</video>
+### Demo Video
 
-**Application:**
+[Watch the Demo Video](assets/demo-video.mp4)
 
 <table>
   <tr>
@@ -26,7 +26,7 @@
   </tr>
 </table>
 
-**Local:**
+### Local Development
 
 Backend:
 ```

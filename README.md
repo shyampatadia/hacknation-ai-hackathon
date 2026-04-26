@@ -1,4 +1,4 @@
-# Aarogya Intelligence — System Design Document
+# MedCompass — System Design Document
 
 ---
 

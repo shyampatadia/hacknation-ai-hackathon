@@ -17,6 +17,7 @@ export function buildVoiceWsUrl(url: string) {
 
 export const apiRoutes = {
   crisisQuery: `${apiBaseUrl}/api/query/crisis`,
+  agentQuery: `${apiBaseUrl}/api/query/agent`,
   mapDeserts: `${apiBaseUrl}/api/map/deserts`,
   facilities: `${apiBaseUrl}/api/facilities`,
   voiceSession: `${apiBaseUrl}/api/voice/session`,

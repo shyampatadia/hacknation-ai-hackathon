@@ -4,6 +4,9 @@
 
 ## 1. Product Overview
 
+<img width="1466" height="795" alt="Screenshot 2026-04-26 at 10 33 42" src="https://github.com/user-attachments/assets/24102e6e-f5e6-4103-a1a0-e6edd2e2a61c" />
+
+
 ### Problem Statement
 
 In India, a postal code determines a lifespan. 70% of the population lives in rural areas where healthcare discovery is broken — not because facilities don't exist, but because no one can verify what those facilities actually offer. A hospital can claim ICU capability on paper while having zero doctors and no ventilators.

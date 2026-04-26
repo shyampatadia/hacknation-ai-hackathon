@@ -13,6 +13,7 @@ export type Facility = {
 
 export type DistrictSnapshot = {
   name: string;
+  state: string;
   summary: string;
   desertScore: number;
   status: "covered" | "moderate" | "critical";
@@ -79,21 +80,26 @@ export const mockFacilities: Facility[] = [
 export const districtSnapshots: DistrictSnapshot[] = [
   {
     name: "Palamu, Jharkhand",
+    state: "Jharkhand",
     summary: "No verified cardiac facility inside the local district radius. Highest urgency for referral routing.",
     desertScore: 93,
     status: "critical",
+    specialties: ["Cardiac", "Trauma"],
   },
   {
     name: "Gaya, Bihar",
+    state: "Bihar",
     summary: "Moderate maternal coverage, but neonatal support remains thin outside the city core.",
     desertScore: 64,
     status: "moderate",
+    specialties: ["Maternal", "Neonatal"],
   },
   {
     name: "Mysuru, Karnataka",
+    state: "Karnataka",
     summary: "Cardiac and trauma coverage are stronger. District operates as a comparison baseline.",
     desertScore: 22,
     status: "covered",
+    specialties: ["Cardiac", "Trauma"],
   },
 ];
-

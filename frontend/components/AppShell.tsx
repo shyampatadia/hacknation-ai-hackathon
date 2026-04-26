@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/", label: "Ask", kicker: "Crisis query" },
-  { href: "/map", label: "Map", kicker: "Desert view" },
+  { href: "/map", label: "Map", kicker: "Coverage view" },
   { href: "/browse", label: "Browse", kicker: "Facility audit" },
   // { href: "/auth", label: "Auth", kicker: "Operator access" },
 ];
@@ -37,7 +37,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <div className="brand-mark">AI</div>
           <div>
             <h1>Aarogya Intelligence</h1>
             <p>Healthcare network verification</p>
@@ -59,11 +58,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="sidebar-chip">VOICE READY</div>
-          <div className="sidebar-chip">LANG AUTO</div>
           <div className="sidebar-note">
-            <strong>System focus</strong>
-            <span>Interface first. Trust visible. Trace always present.</span>
+            <strong>Product stance</strong>
+            <span>Clear signals, traceable evidence, and less visual noise during urgent routing.</span>
+          </div>
+          <div className="sidebar-note">
+            <strong>License</strong>
+            <span>Released under the MIT License.</span>
           </div>
         </div>
       </aside>
@@ -75,12 +76,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <h2>{current.caption}</h2>
           </div>
           <div className="topbar-status">
-            <span className="status-pill">INDIA NETWORK</span>
-            <span className="status-pill status-live">LIVE MOCK DATA</span>
+            <span className="status-pill">Prototype interface</span>
           </div>
         </header>
 
         <main className="page-shell">{children}</main>
+        <footer className="app-footer">
+          <span>Aarogya Intelligence prototype</span>
+          <span>MIT licensed</span>
+        </footer>
       </div>
     </div>
   );

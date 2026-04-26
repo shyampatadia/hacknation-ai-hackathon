@@ -21,6 +21,9 @@ class Settings:
     voice_max_chunk_bytes: int
     voice_model_id: str
     voice_model_dtype: str
+    # voice_api_url: str | None
+    # voice_api_key: str | None
+    # voice_api_timeout_seconds: float
     voice_transcriber_backend: str
     voice_partial_window_seconds: float
     voice_partial_step_seconds: float
@@ -46,6 +49,9 @@ def get_settings() -> Settings:
         voice_max_chunk_bytes=int(os.getenv("VOICE_MAX_CHUNK_BYTES", "6400")),
         voice_model_id=os.getenv("LIQUID_MODEL_ID", "LiquidAI/LFM2.5-Audio-1.5B"),
         voice_model_dtype=os.getenv("VOICE_MODEL_DTYPE", "auto"),
+        # voice_api_url=os.getenv("VOICE_API_URL"),
+        # voice_api_key=os.getenv("VOICE_API_KEY"),
+        # voice_api_timeout_seconds=float(os.getenv("VOICE_API_TIMEOUT_SECONDS", "30")),
         voice_transcriber_backend=os.getenv("VOICE_TRANSCRIBER_BACKEND", "mock"),
         voice_partial_window_seconds=float(os.getenv("VOICE_PARTIAL_WINDOW_SECONDS", "1.0")),
         voice_partial_step_seconds=float(os.getenv("VOICE_PARTIAL_STEP_SECONDS", "0.5")),

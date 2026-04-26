@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TrustBadge } from "@/components/TrustBadge";
 import { apiRoutes } from "@/lib/api";
 import { Facility, mockFacilities } from "@/lib/mock-data";
+import { normalizeFacility } from "@/lib/normalize";
 
 const STATE_OPTIONS = [
   { value: "all", label: "All states" },
@@ -42,7 +43,7 @@ export default function BrowsePage() {
 
         const data = await response.json();
         const payload = Array.isArray(data) ? data : data.facilities ?? data.items ?? [];
-        setFacilities(payload);
+        setFacilities(payload.map(normalizeFacility));
       } catch (error) {
         console.error("Error fetching facilities:", error);
       }
@@ -63,29 +64,10 @@ export default function BrowsePage() {
         const matchesSpecialty =
           specialtyValue === "all" ||
           facility.specialties.some((specialty) => specialty.toLowerCase() === specialtyValue);
-          console.log("Scores:", facility.trustScore, trustValue);
-        // const matchesTrust = Number(facility.trustScore) >= trustValue; // DEBUG 
-        // const matchesTrust = facility.trustScore == trustValue; // Exact match for debugging
-        return matchesState && matchesSpecialty;// && matchesTrust;
+        const matchesTrust = Number(facility.trustScore) >= trustValue;
+        return matchesState && matchesSpecialty && matchesTrust;
       })
     );
-
-    // filterFacilities();
-    // const stateValue = stateFilter.toLowerCase();
-    // const specialtyValue = specialtyFilter.toLowerCase();
-    // const trustValue = Number(trustFilter);
-
-    // setFilteredFacilities(
-    //   facilities.filter((facility) => {
-    //     const matchesState =
-    //       stateValue === "all" || facility.state.toLowerCase() === stateValue;
-    //     const matchesSpecialty =
-    //       specialtyValue === "all" ||
-    //       facility.specialties.some((specialty) => specialty.toLowerCase() === specialtyValue);
-    //     const matchesTrust = facility.trustScore >= trustValue;
-    //     return matchesState && matchesSpecialty && matchesTrust;
-    //   })
-    // );
   }, [facilities, stateFilter, specialtyFilter, trustFilter]);
 
   const flaggedCount = useMemo(
@@ -111,41 +93,50 @@ export default function BrowsePage() {
       </div>
 
       <div className="filters">
-        <select
-          className="filter-state"
-          value={stateFilter}
-          onChange={(event) => setStateFilter(event.target.value)}
-        >
-          {STATE_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <label className="filter-field">
+          <span className="filter-label">State</span>
+          <select
+            className="filter-select"
+            value={stateFilter}
+            onChange={(event) => setStateFilter(event.target.value)}
+          >
+            {STATE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <select
-          className="filter-specialty"
-          value={specialtyFilter}
-          onChange={(event) => setSpecialtyFilter(event.target.value)}
-        >
-          {SPECIALTY_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <label className="filter-field">
+          <span className="filter-label">Specialty</span>
+          <select
+            className="filter-select"
+            value={specialtyFilter}
+            onChange={(event) => setSpecialtyFilter(event.target.value)}
+          >
+            {SPECIALTY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <select
-          className="filter-trust"
-          value={trustFilter}
-          onChange={(event) => setTrustFilter(event.target.value)}
-        >
-          {TRUST_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <label className="filter-field">
+          <span className="filter-label">Trust threshold</span>
+          <select
+            className="filter-select"
+            value={trustFilter}
+            onChange={(event) => setTrustFilter(event.target.value)}
+          >
+            {TRUST_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <table className="facility-table">

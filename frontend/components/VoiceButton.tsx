@@ -22,7 +22,11 @@ export function VoiceButton({ state, onClick, disabled = false }: VoiceButtonPro
       onClick={onClick}
       disabled={disabled}
     >
-      {labelByState[state]}
+      {state === "stopping" ? (
+        <span className="voice-spinner" aria-hidden="true" />
+      ) : (
+        labelByState[state]
+      )}
     </button>
   );
 }

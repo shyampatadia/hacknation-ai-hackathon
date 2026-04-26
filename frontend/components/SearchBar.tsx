@@ -12,10 +12,10 @@ type SearchBarProps = {
   placeholder: string;
   cta: string;
   chips: string[];
+  prefillQuery?: string | null;
 };
 
-export function SearchBar({ placeholder, cta, chips }: SearchBarProps) {
-  const [activeChip, setActiveChip] = useState(chips[0] ?? "");
+export function SearchBar({ placeholder, cta, chips, prefillQuery }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [chips2, setChips2] = useState<Facility[]>([]);
   const lastAutoSubmittedTranscriptRef = useRef("");
@@ -76,6 +76,12 @@ export function SearchBar({ placeholder, cta, chips }: SearchBarProps) {
       setSearchQuery(voice.liveTranscript);
     }
   }, [voice.liveTranscript]);
+
+  useEffect(() => {
+    if (prefillQuery) {
+      setSearchQuery(prefillQuery);
+    }
+  }, [prefillQuery]);
 
   // useEffect(() => {
   //   if (voice.liveTranscript) {
@@ -167,16 +173,19 @@ export function SearchBar({ placeholder, cta, chips }: SearchBarProps) {
         <span>{voiceStatusText}</span>
       </div>
       <div className="chip-row">
+        {chips.map((chip) => (
+          <button
+            key={chip}
+            type="button"
+            className="chip"
+            onClick={() => setSearchQuery(`${chip} care`)}
+          >
+            {chip}
+          </button>
+        ))}
+      </div>
+      <div className="results">
         {chips2.map((chip) => (
-          // <button
-          //   key={chip["id"]}
-          //   className="chip"
-          //   type="button"
-          //   data-active={chip["id"] === activeChip}
-          //   onClick={() => setActiveChip(chip["id"])}
-          // >
-          //   {chip["name"]}
-          // </button>
           <FacilityCard key={chip.id} facility={chip} />
         ))}
       </div>

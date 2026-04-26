@@ -8,6 +8,14 @@ router = APIRouter(prefix="/api/query", tags=["query"])
 
 @router.post("/crisis")
 async def crisis_query(payload: CrisisQueryRequest) -> CrisisQueryResponse:
+    """
+    Schema for incoming crisis query requests.
+
+    CrisisQueryRequest:
+    - query: str = Field(min_length=3)
+    - language: str = "auto"
+    - user_location: str | None (e.g. "42.364601729904244,-71.06120426845533")
+    """
     return CrisisQueryResponse(
         query=payload.query,
         language=payload.language,

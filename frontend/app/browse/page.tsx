@@ -1,7 +1,80 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import { TrustBadge } from "@/components/TrustBadge";
-import { mockFacilities } from "@/lib/mock-data";
+import { apiRoutes } from "@/lib/api";
+import { Facility, mockFacilities } from "@/lib/mock-data";
+import { normalizeFacility } from "@/lib/normalize";
+
+const STATE_OPTIONS = [
+  { value: "all", label: "All states" },
+  { value: "jharkhand", label: "Jharkhand" },
+  { value: "bihar", label: "Bihar" },
+  { value: "karnataka", label: "Karnataka" },
+];
+
+const SPECIALTY_OPTIONS = [
+  { value: "all", label: "All specialties" },
+  { value: "cardiac", label: "Cardiac" },
+  { value: "maternal", label: "Maternal" },
+  { value: "trauma", label: "Trauma" },
+];
+
+const TRUST_OPTIONS = [
+  { value: "50", label: "Trust 50+" },
+  { value: "60", label: "Trust 60+" },
+  { value: "75", label: "Trust 75+" },
+];
 
 export default function BrowsePage() {
+  const [facilities, setFacilities] = useState<Facility[]>(mockFacilities);
+  const [filteredFacilities, setFilteredFacilities] = useState<Facility[]>(mockFacilities);
+  const [stateFilter, setStateFilter] = useState("jharkhand");
+  const [specialtyFilter, setSpecialtyFilter] = useState("maternal");
+  const [trustFilter, setTrustFilter] = useState("60");
+
+  useEffect(() => {
+    const fetchFacilities = async () => {
+      try {
+        const response = await fetch(apiRoutes.facilities);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const payload = Array.isArray(data) ? data : data.facilities ?? data.items ?? [];
+        setFacilities(payload.map(normalizeFacility));
+      } catch (error) {
+        console.error("Error fetching facilities:", error);
+      }
+    };
+
+    fetchFacilities();
+  }, []);
+
+  useEffect(() => {
+    const stateValue = stateFilter.toLowerCase();
+    const specialtyValue = specialtyFilter.toLowerCase();
+    const trustValue = Number(trustFilter);
+
+    setFilteredFacilities(
+      facilities.filter((facility) => {
+        const matchesState =
+          stateValue === "all" || facility.state.toLowerCase() === stateValue;
+        const matchesSpecialty =
+          specialtyValue === "all" ||
+          facility.specialties.some((specialty) => specialty.toLowerCase() === specialtyValue);
+        const matchesTrust = Number(facility.trustScore) >= trustValue;
+        return matchesState && matchesSpecialty && matchesTrust;
+      })
+    );
+  }, [facilities, stateFilter, specialtyFilter, trustFilter]);
+
+  const flaggedCount = useMemo(
+    () => filteredFacilities.filter((facility) => facility.flags.length > 0).length,
+    [filteredFacilities]
+  );
+
   return (
     <section className="browser-shell">
       <div className="browser-header">
@@ -14,29 +87,56 @@ export default function BrowsePage() {
           </p>
         </div>
         <div className="browser-summary">
-          <strong>3</strong>
+          <strong>{flaggedCount}</strong>
           <span>Flagged facilities in current view</span>
         </div>
       </div>
 
       <div className="filters">
-        <select className="filter-select" defaultValue="jharkhand">
-          <option value="all">All states</option>
-          <option value="jharkhand">Jharkhand</option>
-          <option value="bihar">Bihar</option>
-          <option value="karnataka">Karnataka</option>
-        </select>
-        <select className="filter-select" defaultValue="maternal">
-          <option value="all">All specialties</option>
-          <option value="cardiac">Cardiac</option>
-          <option value="maternal">Maternal</option>
-          <option value="trauma">Trauma</option>
-        </select>
-        <select className="filter-select" defaultValue="60">
-          <option value="50">Trust 50+</option>
-          <option value="60">Trust 60+</option>
-          <option value="75">Trust 75+</option>
-        </select>
+        <label className="filter-field">
+          <span className="filter-label">State</span>
+          <select
+            className="filter-select"
+            value={stateFilter}
+            onChange={(event) => setStateFilter(event.target.value)}
+          >
+            {STATE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="filter-field">
+          <span className="filter-label">Specialty</span>
+          <select
+            className="filter-select"
+            value={specialtyFilter}
+            onChange={(event) => setSpecialtyFilter(event.target.value)}
+          >
+            {SPECIALTY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="filter-field">
+          <span className="filter-label">Trust threshold</span>
+          <select
+            className="filter-select"
+            value={trustFilter}
+            onChange={(event) => setTrustFilter(event.target.value)}
+          >
+            {TRUST_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <table className="facility-table">
@@ -51,7 +151,7 @@ export default function BrowsePage() {
           </tr>
         </thead>
         <tbody>
-          {mockFacilities.map((facility) => (
+          {filteredFacilities.map((facility) => (
             <tr key={facility.id}>
               <td>
                 <strong>{facility.name}</strong>

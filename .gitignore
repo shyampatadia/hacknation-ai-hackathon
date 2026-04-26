@@ -18,4 +18,4 @@ __pycache__/
 .pytest_cache/
 .venv/
 *.pyc
-src/config/setting.py
+src/config/settings.py

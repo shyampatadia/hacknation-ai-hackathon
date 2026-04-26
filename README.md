@@ -74,8 +74,8 @@ Those stay in Databricks because they are the analytical system of record.
 │  AGENT      │  │   DATA LAYER    │  │   VOICE LAYER           │
 │  LAYER      │  │                 │  │                         │
 │  LangGraph  │  │  Databricks     │  │  Whisper (STT)          │
-│  + DSPy     │  │  Delta Tables   │  │  TTS nova (TTS)         │
-│  + MLflow   │  │  Vector Search  │  │  GPT-4o Realtime        │
+│  + DSPy     │  │  Delta Tables   │  │  GPT-4o Realtime        │
+│  + MLflow   │  │  Knowledge Graph│  │                         │
 └──────┬──────┘  └─────────────────┘  └─────────────────────────┘
        │
 ┌──────▼──────────────────────────────────────────────────────────┐

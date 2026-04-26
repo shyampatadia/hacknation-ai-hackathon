@@ -7,7 +7,7 @@ const navItems = [
   { href: "/", label: "Ask", kicker: "Crisis query" },
   { href: "/map", label: "Map", kicker: "Desert view" },
   { href: "/browse", label: "Browse", kicker: "Facility audit" },
-  { href: "/auth", label: "Auth", kicker: "Operator access" },
+  // { href: "/auth", label: "Auth", kicker: "Operator access" },
 ];
 
 const pageMeta: Record<string, { title: string; caption: string }> = {
@@ -23,10 +23,10 @@ const pageMeta: Record<string, { title: string; caption: string }> = {
     title: "Facility Browser",
     caption: "Audit facilities, evidence, and contradictions",
   },
-  "/auth": {
-    title: "Operator Access",
-    caption: "Supabase-backed sign in and profile bootstrap",
-  },
+  // "/auth": {
+  //   title: "Operator Access",
+  //   caption: "Supabase-backed sign in and profile bootstrap",
+  // },
 };
 
 export function AppShell({ children }: { children: React.ReactNode }) {

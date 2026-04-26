@@ -22,35 +22,15 @@ export default function HomePage() {
             cta="Run query"
             chips={quickFilters}
           />
-          <div className="prompt-row">
-            <span className="prompt-label">Try:</span>
-            <span className="prompt-item">Emergency C-section near Ranchi</span>
-            <span className="prompt-item">Cardiac care in rural Bihar</span>
-            <span className="prompt-item">Blood bank near Patna</span>
-          </div>
-          <div className="network-grid">
-            <div className="metric-block">
-              <strong>10,000</strong>
-              <span>Facilities indexed</span>
-            </div>
-            <div className="metric-block">
-              <strong>6,847</strong>
-              <span>Verified trust &gt; 60</span>
-            </div>
-            <div className="metric-block">
-              <strong>312</strong>
-              <span>Deserts identified</span>
-            </div>
-          </div>
         </div>
 
         <div className="right-rail">
           <AgentTrace />
-          <OperationsPanel />
+          {/* <OperationsPanel /> */}
         </div>
       </section>
 
-      <section className="result-stage">
+      {/* <section className="result-stage">
         <div className="stack">
           <QuerySnapshot />
           <DesertAlert
@@ -70,7 +50,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

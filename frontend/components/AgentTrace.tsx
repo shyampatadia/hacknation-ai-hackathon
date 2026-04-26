@@ -29,7 +29,7 @@ const traceSteps = [
 export function AgentTrace() {
   return (
     <aside className="panel trace-panel">
-      <span className="eyebrow">Agent trace</span>
+      {/* <span className="eyebrow">Agent trace</span>
       <h3>Visible reasoning, always on</h3>
       <p>The trace should be a product surface, not a hidden debugging drawer.</p>
       <div className="trace-list">
@@ -42,6 +42,26 @@ export function AgentTrace() {
             </div>
           </div>
         ))}
+      </div> */}
+      <div className="prompt-row">
+        <span className="prompt-label">Try:</span>
+        <span className="prompt-item">Emergency C-section near Ranchi</span>
+        <span className="prompt-item">Cardiac care in rural Bihar</span>
+        <span className="prompt-item">Blood bank near Patna</span>
+      </div>
+      <div className="network-grid">
+        <div className="metric-block">
+          <strong>10,000</strong>
+          <span>Facilities indexed</span>
+        </div>
+        <div className="metric-block">
+          <strong>6,847</strong>
+          <span>Verified trust &gt; 60</span>
+        </div>
+        <div className="metric-block">
+          <strong>312</strong>
+          <span>Deserts identified</span>
+        </div>
       </div>
     </aside>
   );

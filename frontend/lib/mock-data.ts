@@ -16,6 +16,7 @@ export type DistrictSnapshot = {
   summary: string;
   desertScore: number;
   status: "covered" | "moderate" | "critical";
+  specialties?: string[];
 };
 
 export const quickFilters = ["ICU", "Dialysis", "Neonatal", "Cardiac", "Trauma", "Maternal"];

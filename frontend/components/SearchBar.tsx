@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { VoiceButton } from "./VoiceButton";
 import { apiRoutes } from "@/lib/api";
@@ -18,35 +18,73 @@ export function SearchBar({ placeholder, cta, chips }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [chips2, setChips2] = useState<Facility[]>([]);
 
+
+  const [loading, setLoading] = useState(false);
+  const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported in this browser.");
+      setCoords(null);
+    } else {
+      setLoading(true);
+      setError(null);
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          console.log("Latitude:", position.coords.latitude);
+          console.log("Longitude:", position.coords.longitude);
+ 
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          setCoords({ latitude, longitude });
+
+          setLoading(false);
+        },
+        (err) => {
+          setError(err.message);
+          setLoading(false);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        }
+      );
+    }
+  }, []);
+
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
 
-    try {
-      // const response = await fetch(`${apiRoutes.crisisQuery}?language=auto&user_location=string&query=${encodeURIComponent(searchQuery)}`);
-      const response = await fetch(apiRoutes.crisisQuery, {
-            method: 'POST',
-            headers: {
-              'accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              query: searchQuery,
-              language: "auto",
-              user_location: "string"
-            })
-          });
+      try {
+        // const response = await fetch(`${apiRoutes.crisisQuery}?language=auto&user_location=string&query=${encodeURIComponent(searchQuery)}`);
+        const response = await fetch(apiRoutes.crisisQuery, {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                query: searchQuery,
+                language: "auto",
+                user_location: coords ? `${coords.latitude},${coords.longitude}` : "unknown"
+              })
+            });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setChips2(data['facilities']); 
+        console.log("Search results:", data);
+        // Handle the response data as needed, e.g., update state or navigate
+      } catch (error) {
+        console.error("Error fetching search results:", error);
       }
-      const data = await response.json();
-      setChips2(data['facilities']); 
-      console.log("Search results:", data);
-      // Handle the response data as needed, e.g., update state or navigate
-    } catch (error) {
-      console.error("Error fetching search results:", error);
-    }
-  };
+    };
 
   return (
     <div className="search-shell">
